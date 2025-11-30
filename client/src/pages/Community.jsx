@@ -10,47 +10,47 @@ const Community = () => {
   const [creations, setCreations] = useState([])
   const { user } = useUser()
   const [loading, setLoading] = useState(true)
-   const {getToken} = useAuth()
+  const { getToken } = useAuth()
 
   const fetchCreations = async () => {
-  try {
-    const { data } = await axios.get('/api/user/get-published-creations', {
-      headers: { Authorization: `Bearer ${await getToken()}` }
-    });
+    try {
+      const { data } = await axios.get('/api/user/get-published-creations', {
+        headers: { Authorization: `Bearer ${await getToken()}` }
+      });
 
-    if (data.success) {
-      setCreations(data.creations);
-    } else {
-      toast.error(data.message);
+      if (data.success) {
+        setCreations(data.creations);
+      } else {
+        toast.error(data.message);
+      }
+
+    } catch (error) {
+      toast.error(error.message);
     }
 
-  } catch (error) {
-    toast.error(error.message);
-  }
-
-  setLoading(false);
-};
+    setLoading(false);
+  };
 
 
-const imageLikeToggle = async (id) => {
-  try {
-    const { data } = await axios.post(
-      '/api/user/toggle-like-creation',
-      { id },
-      { headers: { Authorization: `Bearer ${await getToken()}` } }
-    );
+  const imageLikeToggle = async (id) => {
+    try {
+      const { data } = await axios.post(
+        '/api/user/toggle-like-creation',
+        { id },
+        { headers: { Authorization: `Bearer ${await getToken()}` } }
+      );
 
-    if (data.success) {
-      toast.success(data.message);
-      fetchCreations();
-    } else {
-      toast.error(data.message);
+      if (data.success) {
+        toast.success(data.message);
+        fetchCreations();
+      } else {
+        toast.error(data.message);
+      }
+
+    } catch (error) {
+      toast.error(error.message);
     }
-
-  } catch (error) {
-    toast.error(error.message);
-  }
-};
+  };
 
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const imageLikeToggle = async (id) => {
     }
   }, [user])
 
-  return !loading ?(
+  return !loading ? (
     <div className='flex-1 h-full flex flex-col gap-4 p-6'>
       Creations
 
@@ -84,12 +84,12 @@ const imageLikeToggle = async (id) => {
                   <p>{creation.likes?.length ?? 0}</p>
 
                   <button
-  aria-label={liked ? 'Unlike' : 'Like'}
-  onClick={() => imageLikeToggle(creation.id)}
-  className={`h-5 w-5 ${liked ? 'text-red-500' : 'text-white'}`}
->
-  <Heart fill={liked ? 'red' : 'none'} />
-</button>
+                    aria-label={liked ? 'Unlike' : 'Like'}
+                    onClick={() => imageLikeToggle(creation.id)}
+                    className={`h-5 w-5 ${liked ? 'text-red-500' : 'text-white'}`}
+                  >
+                    <Heart fill={liked ? 'red' : 'none'} />
+                  </button>
 
                 </div>
               </div>
@@ -99,7 +99,7 @@ const imageLikeToggle = async (id) => {
 
       </div>
     </div>
-  ):(
+  ) : (
     <div className='flex justify-center items-center h-full'>
       <span className='w-10 h-10 my-1 rounded-full border-3 border-primary border-t-transparent animate-spin' ></span>
     </div>
