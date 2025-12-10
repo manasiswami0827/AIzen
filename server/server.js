@@ -1,41 +1,27 @@
+import express from 'express';
+import cors from 'cors';
 import "dotenv/config";
-import express from "express";
-import cors from "cors";
-import { clerkMiddleware } from "@clerk/express";
-import aiRouter from "./routes/aiRoutes.js";
-import userRouter from "./routes/userRoutes.js";
-import { connectCloudinary } from "./configs/cloudinary.js";
-import { auth } from "./middlewares/auth.js";
+import { clerkMiddleware, requireAuth } from '@clerk/express'
+import aiRouter from './routes/aiRoutes.js';
+import {connectCloudinary} from "./configs/cloudinary.js"
+import userRouter from './routes/userRoutes.js';
+const app = express()
 
-const app = express();
+await connectCloudinary();
 
-// Run Cloudinary connection inside a function, not top-level await
-(async () => {
-  await connectCloudinary();
-})();
+app.use(cors())
+app.use(express.json())
+app.use(clerkMiddleware())
 
-app.use(cors());
-app.use(express.json());
+app.get('/',(req, res) =>res.send('Server is Live!'))
 
-// Clerk middleware
-app.use(clerkMiddleware());
+app.use(requireAuth())
 
-// Test route
-app.get("/", (req, res) => res.send("Server is live!"));
+app.use('/api/ai',aiRouter)
+app.use('/api/user',userRouter)
 
-// Routes
-app.use("/api/ai", auth, aiRouter);
-app.use("/api/user", auth, userRouter);
-
-// Vercel requires export, not continuous listening in serverless mode
 const PORT = process.env.PORT || 3000;
 
-if (process.env.VERCEL) {
-  // Serverless mode: do NOT call listen()
-  console.log("Running in Vercel serverless mode");
-} else {
-  // Local development
-  app.listen(PORT, () => console.log("Server running on", PORT));
-}
-
-export default app;
+app.listen(PORT,()=>{
+    console.log('server is running on port', PORT);
+})

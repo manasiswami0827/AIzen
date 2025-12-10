@@ -7,7 +7,6 @@ import Markdown from 'react-markdown';
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
-
 const WriteArticle = () => {
 
   const articleLength = [
@@ -24,14 +23,13 @@ const WriteArticle = () => {
    const {getToken} = useAuth()
 
   const onSubmitHandler = async (e) => {
-     const token = await getToken();
     e.preventDefault();
     try{
       setLoading(true)
       const prompt = `Write an article about ${input} in ${selectedLength.text}`
 
       const {data} = await axios.post('/api/ai/generate-article',{prompt,length:selectedLength.length},{
-        headers: {Authorization: `Bearer ${token}`,  }
+        headers: {Authorization:  `Bearer ${await getToken()}`}
       })
       if(data.success){
         setContent(data.content)
@@ -50,7 +48,7 @@ const WriteArticle = () => {
       <form onSubmit={onSubmitHandler} action="" className='w-full max-w-lg p-4 bg-white rounded-lg border border-gray-200'>
         <div className='flex items-center gap-3'>
           <Sparkles className='w-6 text-[#a204a7]' />
-          <h1 className='text-xl font-semibold'>Article Writer</h1>
+          <h1 className='text-xl font-semibold'>Article Wrtiter</h1>
         </div>
         <p className='mt-6 text-sm font-medium'>Article Topic</p>
 
@@ -70,7 +68,7 @@ const WriteArticle = () => {
           loading ? <span className='w-4 h-4 my-1 rounded-full border-2 border-t-transparent animate-spin'></span>
           :<Edit className='w-5'/>
          }
-          Genearte Article</button>
+          Generate Article</button>
       </form>
 
       <div className='w-full max-w-lg p-4 bg-white rounded-lg flex flex-col border border-gray-200 min-h-96 max-h-[600px]'>

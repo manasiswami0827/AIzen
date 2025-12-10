@@ -49,7 +49,7 @@ export const toggleLikeCreation = async (req, res)=>{
 
         const formattedArray = `{${updatedLikes.join(',')}}`
 
-       await sql `UPDATE creations set likes = ${formattedArray}::text[] WHERE ID= ${id}`;
+       await sql `UPDATE creations set likes = ${formattedArray}::text[] WHERE id= ${id}`;
         res.json({success: true, message});
     }catch(error){
         res.json({success: false, message: error.massage});

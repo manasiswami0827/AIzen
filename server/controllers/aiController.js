@@ -12,13 +12,13 @@ import FormData from 'form-data'
 
 const AI = new OpenAI({
     apiKey: process.env.GEMINI_API_KEY,
-    baseURL: process.env.GEMINI_API
+    baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
 });
 
 export const generateArticle = async (req, res)=>{
 
     try{
-       const {userId} = req.auth()
+        const {userId} = req.auth();
         const {prompt, length} =req.body;
         const plan = req.plan;
         const free_usage = req.free_usage;
@@ -62,8 +62,8 @@ if(plan !== 'premium'){
 export const generateBlogTitle = async (req, res)=>{
 
     try{
-        const userId = req.auth.userId;
-        const {prompt, length} =req.body;
+        const {userId} = req.auth();
+        const {prompt} =req.body;
         const plan = req.plan;
         const free_usage = req.free_usage;
 
@@ -73,7 +73,7 @@ export const generateBlogTitle = async (req, res)=>{
 
         const response = await AI.chat.completions.create({
     model: "gemini-2.0-flash",
-    messages: [{role: "user",content: prompt,},],
+    messages: [{role: "user",content: prompt,}],
     temperature:0.7,
     max_tokens:100,
 });
@@ -120,7 +120,7 @@ if(plan !== 'premium'){
 
 //        const {secure_url} = await cloudinary.uploader.upload(base64Image)
 
-// await sql` INSERT INTO Creations (user_id, prompt, content, type)
+// await sql` INSERT INTO Creations (user_id, prompt, content, type,publish)
 // VALUES(${userId}, ${prompt}, ${content}, 'image', ${publish ?? false})`;
 
 // res.json({success:true, content:secure_url})
@@ -228,7 +228,7 @@ export const generateImage = async (req, res) => {
 // await sql` INSERT INTO Creations (user_id, prompt, content, type)
 // VALUES(${userId},'Remove background from image', ${secure_url}, 'image')`;
 
-// res.json({success:true, content:secure_url})
+// res.json({success:true, content: secure_url})
 
 //     }catch(error){
 //         console.log(error.message)
@@ -483,12 +483,7 @@ export const removeImageObject = async (req, res) => {
 
 //           const response = await AI.chat.completions.create({
 //     model: "gemini-2.0-flash",
-//     messages: [
-//         {
-//             role: "user",
-//             content: prompt,
-//         },
-//     ],
+//     messages: [{ role: "user", content: prompt,}],
 //     temperature:0.7,
 //     max_tokens:1000,
 // });
@@ -497,7 +492,7 @@ export const removeImageObject = async (req, res) => {
 
 
 // await sql` INSERT INTO Creations (user_id, prompt, content, type)
-// VALUES(${userId},'review the upload resume', ${content}, 'resume-review')`;
+// VALUES(${userId},'review the uploaded resume', ${content}, 'resume-review')`;
 
 // res.json({success:true, content})
 

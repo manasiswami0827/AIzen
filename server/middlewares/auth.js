@@ -2,26 +2,31 @@ import { clerkClient } from "@clerk/express";
 
 export const auth = async (req, res, next) => {
   try {
-    const {userId} = req.auth()
+    const authData = req.auth;   // ✅ Correct (no function call)
 
-    if (!userId) {
-      return res.status(403).json({ success: false, message: "Unauthorized" });
+    if (!authData || !authData.userId) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized - No valid token",
+      });
     }
+
+    const { userId, has } = authData;
+
+    const hasPremiumPlan = has ? await has({ plan: "premium" }) : false;
 
     const user = await clerkClient.users.getUser(userId);
 
-    const hasPremiumPlan = user.privateMetadata?.plan === "premium";
-    const freeUsage = user.privateMetadata?.free_usage ?? 0;
-
-    if (!hasPremiumPlan && freeUsage > 0) {
-      req.free_usage = freeUsage;
+    // Free usage logic
+    if (!hasPremiumPlan && user.privateMetadata.free_usage) {
+      req.free_usage = user.privateMetadata.free_usage;
     } else {
       await clerkClient.users.updateUserMetadata(userId, {
         privateMetadata: {
-          ...user.privateMetadata,
-          free_usage: 0
-        }
+          free_usage: 0,
+        },
       });
+
       req.free_usage = 0;
     }
 
@@ -29,6 +34,6 @@ export const auth = async (req, res, next) => {
 
     next();
   } catch (error) {
-    res.json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };

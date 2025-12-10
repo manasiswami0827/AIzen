@@ -25,15 +25,17 @@ const Sidebar = ({sidebar, setSidebar}) => {
         <h1 className='mt-1 text-center'>{user.fullName} </h1>
         <div className='px-6 mt-5 text-sm text-gray-600 font-medium'>
             {navItems.map(({to, label, Icon})=>{
-              return  (<NavLink key={to} to={to} end={to === '/ai'} onClick={()=>setSidebar(false)} className={({isActive})=>`px-3.5 py-2.5 flex items-center gap-3 rounded
-                 ${isActive ? 'bg-gradient-to-r from-[#4185fb] to-[#b260ff] text-white' : ''}`} >
+              return  (
+              <NavLink key={to} to={to} end={to === '/ai'} onClick={()=>setSidebar(false)} className={({isActive})=>`px-3.5 py-2.5 flex items-center gap-3 rounded
+                 ${isActive ? 'bg-gradient-to-r from-[#397df2] to-[#b260ff] text-white' : ''}`} >
                    {({isActive})=>(
                      <>
                      <Icon className={`w-4 h-4 ${isActive ? 'text-white' : ''}`}/>
                      {label}
                     </>
                      )}
-                </NavLink>)
+                </NavLink>
+                )
             })}
         </div>
 
