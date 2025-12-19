@@ -36,7 +36,7 @@ const Footer=()=> {
                 </div>
             </div>
             <p className="pt-4 text-center text-xs md:text-sm pb-5">
-                Copyright  {new Date().getFullYear()}  © <Link>Aizen</Link>. All Right Reserved.
+                Copyright  {new Date().getFullYear()}  © <Link to='/'>Aizen</Link>. All Right Reserved.
             </p>
         </footer>
     );

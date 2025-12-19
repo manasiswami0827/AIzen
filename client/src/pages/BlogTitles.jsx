@@ -9,7 +9,7 @@ axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
 const BlogTitles = () => {
 
-  const blogCategories = [ ' General', 'Technology', 'Business', 'Health', 'Lifestyle', 'Education', 'Travel', "Food"]
+  const blogCategories = [ 'General', 'Technology', 'Business', 'Health', 'Lifestyle', 'Education', 'Travel', "Food"]
 
   const [selectedCategory, setSelectedCategory] = useState('General')
   const [input, setInput] = useState('')
@@ -21,7 +21,7 @@ const BlogTitles = () => {
     e.preventDefault();
     try{
       setLoading(true)
-const prompt = `Generate  SEOfriendly blog titles for the keyword "${input}" in the "${selectedCategory}" category`
+const prompt = `Generate  SEO friendly blog titles for the keyword "${input}" in the "${selectedCategory}" category`
 
       const { data}  = await axios.post('/api/ai/generate-blog-title',{prompt},
         {headers:{Authorization: `Bearer ${await getToken()}`}}
@@ -32,9 +32,12 @@ const prompt = `Generate  SEOfriendly blog titles for the keyword "${input}" in 
       }else{
         toast.error(data.message)
       }
-      setLoading(false)
+     
     }catch(error){
         toast.error(error.message)
+      }
+      finally{
+         setLoading(false)
       }
   }
   return (

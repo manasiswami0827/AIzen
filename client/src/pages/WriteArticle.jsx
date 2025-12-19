@@ -38,7 +38,7 @@ const WriteArticle = () => {
       }
 
     }catch(error){
-      toast.error(error.message)
+      toast.error("api error");
     }
     setLoading(false)
   }

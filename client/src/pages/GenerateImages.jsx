@@ -27,7 +27,7 @@ const GenerateImages = () => {
             {headers: {Authorization: `Bearer ${await getToken()}`}}
           )
           if(data.success){
-             setContent(data.image || data.content)
+             setContent(data.content)
           }else{
             toast.error(data.message)
           }
@@ -83,7 +83,7 @@ const GenerateImages = () => {
       </form>
 
       <div className='w-full max-w-lg p-4 bg-white rounded-lg flex flex-col border border-gray-200 min-h-96'>
-        <div className='flex item-center gap-3'>
+        <div className='flex items-center gap-3'>
         <Image className='w-5 h-5 text-[#0580a6]'></Image>
         <h1>Generated Image</h1>
         </div>
@@ -91,7 +91,7 @@ const GenerateImages = () => {
           <div>
           <div>
             <Image className='w-9 h-9'></Image>
-            <p>Enter a topppic and click "Generate image" to get started</p>
+            <p>Enter a topic and click "Generate image" to get started</p>
           </div>
         </div>
          ):

@@ -6,10 +6,11 @@ const Hero = () => {
   const navigate = useNavigate()
 
   return (
-    <div className="px-4 sm:px-20 xl:px-32 bg-[url(/gradientBackground.png)] bg-cover bg-no-repeat min-h-screen flex items-center">
-
+    <div
+      className="px-4 sm:px-20 xl:px-32 bg-cover bg-no-repeat min-h-screen flex items-center"
+      style={{ backgroundImage: "url('/gradientBackground.png')" }} // ✅ if file is in public/
+    >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 w-full">
-
         <div className="flex flex-col justify-center text-center lg:text-left">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-semibold leading-[1.2]">
             Transform your ideas into stunning <br />
@@ -38,15 +39,9 @@ const Hero = () => {
           <img
             src={assets.mt}
             alt="Hero Illustration"
-            className="
-              max-h-[280px] sm:max-h-[300px] 
-              lg:max-h-[450px] 
-              w-full lg:w-xl 
-              object-cover rounded-xl drop-shadow-xl
-            "
+            className="max-h-[280px] sm:max-h-[300px] lg:max-h-[450px] w-full lg:max-w-xl object-cover rounded-xl drop-shadow-xl"
           />
         </div>
-
       </div>
     </div>
   )
