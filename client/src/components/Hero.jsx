@@ -1,16 +1,38 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { assets } from '../assets/assets'
 
 const Hero = () => {
   const navigate = useNavigate()
 
+  // 👇 Your images in loop
+  const images = [
+    assets.mt,
+    assets.dream,
+    assets.believe,
+    assets.technology,
+    assets.robot,
+  ]
+
+  const [currentImage, setCurrentImage] = useState(0)
+
+  // 👇 Change image every 10 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % images.length)
+    }, 5000)
+
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <div
       className="px-4 sm:px-20 xl:px-32 bg-cover bg-no-repeat min-h-screen flex items-center"
-      style={{ backgroundImage: "url('/gradientBackground.png')" }} // ✅ if file is in public/
+      style={{ backgroundImage: "url('/gradientBackground.png')" }}
     >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 w-full">
+
+        {/* LEFT CONTENT */}
         <div className="flex flex-col justify-center text-center lg:text-left">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-semibold leading-[1.2]">
             Transform your ideas into stunning <br />
@@ -35,13 +57,17 @@ const Hero = () => {
           </div>
         </div>
 
+        {/* RIGHT IMAGE SLIDER */}
         <div className="flex justify-center items-center">
           <img
-            src={assets.mt}
+            src={images[currentImage]}
             alt="Hero Illustration"
-            className="max-h-[280px] sm:max-h-[300px] lg:max-h-[450px] w-full lg:max-w-xl object-cover rounded-xl drop-shadow-xl"
+            className="max-h-[280px] sm:max-h-[300px] lg:max-h-[450px] 
+                       w-full lg:max-w-xl object-cover rounded-xl 
+                       drop-shadow-xl transition-opacity duration-700"
           />
         </div>
+
       </div>
     </div>
   )

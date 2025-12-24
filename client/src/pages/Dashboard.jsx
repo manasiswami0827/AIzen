@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { dummyCreationData } from '../assets/assets'
 import { Gem, Sparkles } from 'lucide-react'
 import { Protect, useAuth, useUser } from '@clerk/clerk-react'
 import CreationItems from '../components/CreationItems'
@@ -30,7 +29,9 @@ const plan = user?.privateMetadata?.plan === 'premium' ? 'Premium' : 'Free';
       }
     } catch (error) {
       toast.error(error.message)
-    }
+    } finally {
+    setLoading(false)   
+  }
   }
 
   useEffect(() => {
@@ -66,7 +67,7 @@ const plan = user?.privateMetadata?.plan === 'premium' ? 'Premium' : 'Free';
       </div>
       {loading ? (
         <div className='flex justify-center items-center h-3/4'>
-          <div className='animate-spin rounded-full h-11 w-11 border-3 border-purple-500 border-t-transparent'></div>
+          <div className='animate-spin rounded-full h-11 w-11 border-4 border-purple-500 border-t-transparent'></div>
         </div>
       ) :
         (
