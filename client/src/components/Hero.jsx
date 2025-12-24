@@ -5,7 +5,6 @@ import { assets } from '../assets/assets'
 const Hero = () => {
   const navigate = useNavigate()
 
-  // 👇 Your images in loop
   const images = [
     assets.mt,
     assets.dream,
@@ -16,60 +15,63 @@ const Hero = () => {
 
   const [currentImage, setCurrentImage] = useState(0)
 
-  // 👇 Change image every 10 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prev) => (prev + 1) % images.length)
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [images.length])
 
   return (
-    <div
-      className="px-4 sm:px-20 xl:px-32 bg-cover bg-no-repeat min-h-screen flex items-center"
+    <section
+      className="pt-28 px-4 xl:px-32 bg-cover bg-no-repeat min-h-screen"
       style={{ backgroundImage: "url('/gradientBackground.png')" }}
     >
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 w-full">
 
         {/* LEFT CONTENT */}
-        <div className="flex flex-col justify-center text-center lg:text-left">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-semibold leading-[1.2]">
+        <div className="flex flex-col text-center lg:text-left mt-10">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-semibold leading-tight">
             Transform your ideas into stunning <br />
             content using <span className="text-primary">AIzen</span>
           </h1>
 
-          <p className="mt-4 text-gray-700">
+          <p className="mt-4 text-gray-700 max-w-xl mx-auto lg:mx-0">
             Create more. Work less. Let AI do the heavy lifting...
           </p>
 
           <div className="flex flex-wrap justify-center lg:justify-start gap-4 mt-6">
             <button
               onClick={() => navigate('/ai')}
-              className="bg-primary text-white px-10 py-3 rounded-lg hover:scale-105 active:scale-95 transition"
+              className="bg-primary text-white px-10 py-3 rounded-lg 
+                         hover:scale-105 active:scale-95 transition-all"
             >
               Start creating now
             </button>
 
-            <button className="text-primary bg-white px-10 py-3 rounded-lg hover:scale-105 active:scale-95 transition">
+            <button
+              className="text-primary bg-white px-10 py-3 rounded-lg 
+                         hover:scale-105 active:scale-95 transition-all"
+            >
               Watch demo
             </button>
           </div>
         </div>
 
-        {/* RIGHT IMAGE SLIDER */}
-        <div className="flex justify-center items-center">
+        {/* RIGHT IMAGE */}
+        <div className="flex justify-center mt-10">
           <img
             src={images[currentImage]}
             alt="Hero Illustration"
-            className="max-h-[280px] sm:max-h-[300px] lg:max-h-[450px] 
-                       w-full lg:max-w-xl object-cover rounded-xl 
-                       drop-shadow-xl transition-opacity duration-700"
+            className="w-full max-w-xl max-h-[450px]
+                       object-contain rounded-xl
+                       drop-shadow-xl transition-all duration-700"
           />
         </div>
 
       </div>
-    </div>
+    </section>
   )
 }
 
