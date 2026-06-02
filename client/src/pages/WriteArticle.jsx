@@ -23,26 +23,53 @@ const WriteArticle = () => {
    const {getToken} = useAuth()
 
   const onSubmitHandler = async (e) => {
-    e.preventDefault();
-    try{
-      setLoading(true)
-      const prompt = `Write an article about ${input} in ${selectedLength.text}`
+  e.preventDefault();
 
-      const {data} = await axios.post('/api/ai/generate-article',{prompt,length:selectedLength.length},{
-        headers: {Authorization:  `Bearer ${await getToken()}`}
-      })
-      if(data.success){
-        setContent(data.content)
-      }else{
-        toast.error(data.message)
+  try {
+    setLoading(true);
+
+    const prompt = `Write an article about ${input} in ${selectedLength.text}`;
+    
+    console.log("Sending request...");
+    console.log("Base URL:", import.meta.env.VITE_BASE_URL);
+
+    const token = await getToken();
+    console.log("TOKEN EXISTS:", !!token, "LENGTH:", token?.length);
+
+    const { data } = await axios.post(
+      '/api/ai/generate-article',
+      {
+        prompt,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       }
+    );
 
-    }catch(error){
-      toast.error("api error");
+    console.log("RESPONSE DATA:", data);
+
+    if (data.success) {
+      setContent(data.content);
+      toast.success("Article generated successfully");
+    } else {
+      toast.error(data.message);
     }
-    setLoading(false)
+
+  } catch (error) {
+  console.error("FULL ERROR:", error.response?.status, error.response?.data);
+  
+  toast.error(
+    error.response?.data?.message || 
+    error.message || 
+    "Something went wrong"
+  );
+} finally {
+    setLoading(false);
   }
- 
+};
+ console.log(import.meta.env.VITE_BASE_URL)
   return (
     <div className='h-full overflow-y-scroll p-6 flex items-start flex-wrap gap-4 text-slate-700'>
       <form onSubmit={onSubmitHandler} action="" className='w-full max-w-lg p-4 bg-white rounded-lg border border-gray-200'>

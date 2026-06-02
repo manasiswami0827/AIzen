@@ -6,10 +6,11 @@ const Hero = () => {
   const navigate = useNavigate()
 
   const images = [
-    assets.mt,
-    assets.dream,
+    assets.ai,
+    assets.Ready_to_future,
     assets.believe,
-    assets.technology,
+    assets.search,
+    assets.robo,
     assets.robot,
   ]
 
@@ -18,7 +19,7 @@ const Hero = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prev) => (prev + 1) % images.length)
-    }, 5000)
+    }, 4000)
 
     return () => clearInterval(interval)
   }, [images.length])
@@ -30,7 +31,6 @@ const Hero = () => {
     >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 w-full">
 
-        {/* LEFT CONTENT */}
         <div className="flex flex-col text-center lg:text-left mt-10">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-semibold leading-tight">
             Transform your ideas into stunning <br />
@@ -50,16 +50,10 @@ const Hero = () => {
               Start creating now
             </button>
 
-            <button
-              className="text-primary bg-white px-10 py-3 rounded-lg 
-                         hover:scale-105 active:scale-95 transition-all"
-            >
-              Watch demo
-            </button>
+           
           </div>
         </div>
 
-        {/* RIGHT IMAGE */}
         <div className="flex justify-center mt-10">
           <img
             src={images[currentImage]}

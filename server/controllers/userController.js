@@ -17,7 +17,7 @@ export const getPublishedCreations = async (req, res) => {
     `;
     res.json({ success: true, creations });
   } catch (error) {
-    console.error("getPublishedCreations error:", error); // ✅ log actual DB error
+    console.error("getPublishedCreations error:", error); 
     res.status(500).json({ success: false, message: error.message || "Failed to fetch published creations" });
   }
 };
@@ -31,7 +31,9 @@ export const toggleLikeCreation = async (req, res) => {
     const [creation] = await sql`SELECT * FROM creations WHERE id = ${id}`;
     if (!creation) return res.json({ success: false, message: "Creation not found" });
 
-    const currentLikes = creation.likes || [];
+    const currentLikes = Array.isArray(creation.likes)
+  ? creation.likes
+  : [];
     const userIdStr = String(userId);
 
     let updatedLikes;
@@ -50,6 +52,15 @@ export const toggleLikeCreation = async (req, res) => {
 
     res.json({ success: true, message });
   } catch (error) {
-    res.json({ success: false, message: error.message });
+
+  console.log("MESSAGE:", error.message);
+
+  if (error.code) {
+    console.log("CODE:", error.code);
   }
+  res.status(500).json({
+    success: false,
+    message: error.message || "Something went wrong"
+  });
+}
 };

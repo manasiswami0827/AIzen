@@ -15,7 +15,6 @@ const Navbar = () => {
         className="h-20 backdrop-blur-2xl flex justify-between items-center 
                    px-4 sm:px-20 xl:px-32"
       >
-        {/* Logo */}
         <img
           src={assets.logoAI}
           alt="logo"
@@ -23,7 +22,6 @@ const Navbar = () => {
           className="w-16 h-16 cursor-pointer"
         />
 
-        {/* Auth Button / User */}
         {user ? (
           <UserButton />
         ) : (

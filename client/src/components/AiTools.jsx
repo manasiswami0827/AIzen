@@ -24,16 +24,14 @@ const AiTools = () => {
                        hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden bg-[#fdfdfe]"
                         onClick={() => user && navigate(tool.path)}
                     >
-                        {/* Hover Gradient Background */}
-                        <div
+                           <div
                             className="absolute inset-0 opacity-0 group-hover:opacity-60 transition-opacity duration-300"
                             style={{
                                 background: `linear-gradient(to right, ${tool.bg.from}, ${tool.bg.to})`,
                             }}
                         />
 
-                        {/* Content */}
-                        <div className="relative z-10">
+                               <div className="relative z-10">
                             <tool.Icon
                                 className="w-12 h-12 p-3 text-white rounded-xl"
                                 style={{
