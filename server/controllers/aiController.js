@@ -10,7 +10,7 @@ const AI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 export const generateArticle = async (req, res) => {
   try {
-    const userId = req.userId;
+    const userId = req.auth();
     const { prompt } = req.body;
     const plan = req.plan;
     const free_usage = req.free_usage;
@@ -29,7 +29,7 @@ export const generateArticle = async (req, res) => {
       });
     }
 
-    const model = AI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = AI.getGenerativeModel({ model: "gemini-2.0-flash" });
     const result = await model.generateContent(prompt);
     const content = result.response.text();
 
@@ -54,7 +54,7 @@ export const generateArticle = async (req, res) => {
 };
 export const generateBlogTitle = async (req, res) => {
   try {
-    const userId = req.userId; 
+    const userId = req.auth(); 
     const { prompt } = req.body;
     const plan = req.plan;
     const free_usage = req.free_usage;
@@ -105,10 +105,10 @@ export const generateBlogTitle = async (req, res) => {
   }
 };
 
-// Generate Image - FIXED
+
 export const generateImage = async (req, res) => {
   try {
-    const userId = req.userId; // Fixed: from auth middleware
+    const userId = req.auth(); // Fixed: from auth middleware
     const { prompt, publish } = req.body;
     const plan = req.plan;
     const free_usage = req.free_usage;
@@ -140,10 +140,9 @@ export const generateImage = async (req, res) => {
   }
 };
 
-// Remove Image Background - FIXED (same pattern)
 export const removeImageBackground = async (req, res) => {
   try {
-    const userId = req.userId;
+    const userId = req.auth();
     const image = req.file;
     const plan = req.plan;
 
@@ -177,10 +176,12 @@ export const removeImageBackground = async (req, res) => {
 // Remove Image Object - FIXED (same pattern)
 export const removeImageObject = async (req, res) => {
   try {
-    const userId = req.userId;
+    const userId = req.auth();
     const { object } = req.body;
     const plan = req.plan;
     const image = req.file;
+    console.log(req.auth());
+console.log(req.userId);
 
     if (!image) {
       return res.status(400).json({ success: false, message: "Image is required" });

@@ -8,7 +8,8 @@ export const auth = async (req, res, next) => {
     const rawPlan = user.privateMetadata?.plan || "free";
     req.plan = rawPlan.toLowerCase();
 
-      req.free_usage = user.privateMetadata?.free_usage ?? 0;
+    
+    req.free_usage = user.privateMetadata?.free_usage ?? 0;
 
     console.log("Resolved plan:", req.plan);
     console.log("Clerk privateMetadata:", user.privateMetadata);
